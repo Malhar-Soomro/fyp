@@ -1,0 +1,19 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5rem;
+}
+
+.follow{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.socials{
+    display: flex;
+    gap:.5rem;
+    align-items: center;
+}
+
+
