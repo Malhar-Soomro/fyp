@@ -1,22 +1,29 @@
 import React, { useState } from 'react'
 import * as styles from "../styles/sign-up.module.css";
-import { Link, navigate, Button } from 'gatsby';
+import { Link, navigate } from 'gatsby';
+import { useFormik } from "formik";
+
+const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+};
 
 const Signup = () => {
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+        useFormik({
+            initialValues,
+            //   validationSchema: signUpSchema,
+            onSubmit: (values, action) => {
+                console.log(
+                    values
+                );
+                action.resetForm();
+            },
+        });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log('firstName:', firstName);
-        console.log('lastName:', lastName);
-        console.log('email:', email);
-        console.log('password:', password);
-    };
 
     const goBack = () => {
         console.log("go back")
@@ -37,34 +44,38 @@ const Signup = () => {
                         <input
                             type="text"
                             id="firstName"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            required
+                            autoComplete='off'
+                            value={values.firstName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                         <label htmlFor="lastName">last name</label>
                         <input
                             type="text"
                             id="lastName"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
+                            autoComplete='off'
+                            value={values.lastName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                         <label htmlFor="email">email</label>
                         <input
                             type="email"
                             id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            autoComplete='off'
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                         />
 
                         <label htmlFor="password">password</label>
                         <input
                             type="password"
                             id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                            autoComplete='off'
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                         />
 
                         <div className={styles.btnContainer}>
