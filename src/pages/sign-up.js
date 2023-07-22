@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import * as styles from "../styles/sign-up.module.css";
 import { Link, navigate } from 'gatsby';
 import { useFormik } from "formik";
+import * as Yup from "yup";
+
 
 const initialValues = {
     firstName: "",
@@ -10,12 +12,19 @@ const initialValues = {
     password: "",
 };
 
+export const signUpSchema = Yup.object({
+    firstName: Yup.string().min(2).max(25).required("Please enter your first name"),
+    lastName: Yup.string().min(2).max(25).required("Please enter your last name"),
+    email: Yup.string().email().required("Please enter your email"),
+    password: Yup.string().min(6).required("Please enter your password"),
+});
+
 const Signup = () => {
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
         useFormik({
             initialValues,
-            //   validationSchema: signUpSchema,
+            validationSchema: signUpSchema,
             onSubmit: (values, action) => {
                 console.log(
                     values
@@ -23,6 +32,7 @@ const Signup = () => {
                 action.resetForm();
             },
         });
+    // console.log(errors)
 
 
     const goBack = () => {
@@ -49,6 +59,9 @@ const Signup = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />
+                        {errors.firstName && touched.firstName ? (
+                            <p className={styles.formError}>{errors.firstName}</p>
+                        ) : null}
                         <label htmlFor="lastName">last name</label>
                         <input
                             type="text"
@@ -58,6 +71,9 @@ const Signup = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />
+                        {errors.lastName && touched.lastName ? (
+                            <p className={styles.formError}>{errors.lastName}</p>
+                        ) : null}
                         <label htmlFor="email">email</label>
                         <input
                             type="email"
@@ -67,6 +83,9 @@ const Signup = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />
+                        {errors.email && touched.email ? (
+                            <p className={styles.formError}>{errors.email}</p>
+                        ) : null}
 
                         <label htmlFor="password">password</label>
                         <input
@@ -77,6 +96,9 @@ const Signup = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />
+                        {errors.password && touched.password ? (
+                            <p className={styles.formError}>{errors.password}</p>
+                        ) : null}
 
                         <div className={styles.btnContainer}>
 
@@ -84,7 +106,7 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <p>Already Have an account? <Link to="/login">Login</Link></p>
+                    <p className={styles.alreadyHaveAccount}>Already Have an account? <Link to="/login">Login</Link></p>
 
                 </form>
             </div>

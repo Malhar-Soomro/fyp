@@ -101,11 +101,17 @@
     background-color: #e35170;
 }
 
-.container form p{
+.alreadyHaveAccount{
     margin-top: .5rem;
 }
 
 .container form a{
     color: #e3627f;
     cursor: pointer;
+}
+
+.formError{
+    margin-bottom: .5rem;
+    color:rgb(226, 112, 112);
+
 }
