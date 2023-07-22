@@ -3,6 +3,11 @@ import * as styles from "../styles/sign-up.module.css";
 import { Link, navigate } from 'gatsby';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { auth, provider } from "../../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+
+
+import image from "../../static/Google.png"
 
 
 const initialValues = {
@@ -21,15 +26,35 @@ export const signUpSchema = Yup.object({
 
 const Signup = () => {
 
+    const createUser = async (email, password) => {
+        try {
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(response)
+            localStorage.setItem("uid", auth.currentUser.uid);
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const login = async () => {
+        try {
+            await signInWithPopup(auth, provider).then(result => console.log(result));
+            localStorage.setItem("uid", auth.currentUser.uid);
+            navigate("/")
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
         useFormik({
             initialValues,
             validationSchema: signUpSchema,
             onSubmit: (values, action) => {
-                console.log(
-                    values
-                );
-                action.resetForm();
+                const { email, password } = values;
+                createUser(email, password)
+                // action.resetForm();
             },
         });
     // console.log(errors)
@@ -104,6 +129,12 @@ const Signup = () => {
 
                             <button className={styles.submitBtn} type="submit">Sign Up</button>
                         </div>
+                        <button type='button' onClick={login} className={styles.loginWithGoogle}>
+                            Login with
+                            <img src={image} alt="google" />
+
+                        </button>
+
                     </div>
 
                     <p className={styles.alreadyHaveAccount}>Already Have an account? <Link to="/login">Login</Link></p>
