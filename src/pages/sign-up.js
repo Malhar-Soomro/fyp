@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { auth, provider } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 
-
 import image from "../../static/Google.png"
 
 
@@ -31,13 +30,15 @@ const Signup = () => {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             console.log(response)
             localStorage.setItem("uid", auth.currentUser.uid);
+            navigate("/");
+
 
         } catch (error) {
             console.log(error)
         }
     }
 
-    const login = async () => {
+    const loginWithGoogle = async () => {
         try {
             await signInWithPopup(auth, provider).then(result => console.log(result));
             localStorage.setItem("uid", auth.currentUser.uid);
@@ -129,7 +130,7 @@ const Signup = () => {
 
                             <button className={styles.submitBtn} type="submit">Sign Up</button>
                         </div>
-                        <button type='button' onClick={login} className={styles.loginWithGoogle}>
+                        <button type='button' onClick={loginWithGoogle} className={styles.loginWithGoogle}>
                             Login with
                             <img src={image} alt="google" />
 
