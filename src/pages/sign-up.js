@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import * as styles from "../styles/sign-up.module.css";
 import { Link, navigate } from 'gatsby';
 import { useFormik } from "formik";
@@ -7,6 +7,7 @@ import { auth, provider } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 
 import image from "../../static/Google.png"
+import { AuthContext } from '../context/AuthContext';
 
 
 const initialValues = {
@@ -24,6 +25,13 @@ export const signUpSchema = Yup.object({
 });
 
 const Signup = () => {
+
+    const value = useContext(AuthContext);
+
+    const user = localStorage.getItem("uid");
+
+
+    console.log(value)
 
     const createUser = async (email, password) => {
         try {
@@ -65,6 +73,9 @@ const Signup = () => {
         console.log("go back")
         navigate("/")
     }
+
+    if (user) return navigate("/");
+
 
     return (
         <div className={styles.container}>

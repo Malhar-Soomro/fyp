@@ -2,11 +2,17 @@ import * as React from "react"
 import Navbar from "../components/Navbar"
 import "../styles/global.css"
 import Footer from "../components/Footer"
+import { AuthContext } from "../context/AuthContext"
 
 
 
 const IndexPage = () => {
+
+  const data = React.useContext(AuthContext);
+
+  console.log(data)
   return (
+
     <>
       <Navbar />
       <div className="img-container">
