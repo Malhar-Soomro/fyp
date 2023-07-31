@@ -9,10 +9,6 @@ import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
 
-
-    const value = useContext(AuthContext)
-    console.log(value)
-
     const [user, setUser] = React.useState(localStorage.getItem('uid'));
     console.log(user)
 
@@ -22,7 +18,6 @@ const Navbar = () => {
         localStorage.setItem("uid", "");
     }
 
-
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Crypto Loan</h2>
@@ -30,7 +25,7 @@ const Navbar = () => {
             <ul className={styles.list}>
                 <Link>Home</Link>
                 <Link>About</Link>
-                <Link>Application Form</Link>
+                <Link to='application-form'>Application Form</Link>
                 <Link>My Account</Link>
                 <Link>Contact</Link>
 

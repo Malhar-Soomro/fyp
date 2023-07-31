@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, navigate } from 'gatsby';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { auth, provider } from "../../firebase";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import * as styles from "../styles/login.module.css";
 
-
 import image from "../../static/Google.png"
+import { AuthContext } from '../context/AuthContext';
 
 const initialValues = {
     email: "",
@@ -19,33 +17,10 @@ export const loginSchema = Yup.object({
     password: Yup.string().min(6).required("Please enter your password"),
 });
 
-
-
 const Login = () => {
 
-
-    const loginWithEmailAndPassword = async (email, password) => {
-        try {
-            const response = await signInWithEmailAndPassword(auth, email, password);
-            console.log(response)
-            localStorage.setItem("uid", auth.currentUser.uid);
-            navigate("/");
-
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const loginWithGoogle = async () => {
-        try {
-            await signInWithPopup(auth, provider).then(result => console.log(result));
-            localStorage.setItem("uid", auth.currentUser.uid);
-            navigate("/");
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const { loginWithGoogle, loginWithEmailAndPassword } = useContext(AuthContext);
+    const user = localStorage.getItem("uid");
 
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -58,13 +33,9 @@ const Login = () => {
                 // action.resetForm();
             },
         });
-    // console.log(errors)
+    console.log(errors);
 
-
-    const goBack = () => {
-        console.log("go back")
-        navigate("/")
-    }
+    if (user) return navigate("/");
 
 
     return (
@@ -72,7 +43,7 @@ const Login = () => {
             <div className={styles.formContainer}>
                 <div className={styles.arrow}>
 
-                    <button onClick={goBack} >←</button>
+                    <button onClick={() => navigate("/")} >←</button>
                     <h2 className={styles.title}>Login now to get started</h2>
                 </div>
                 <form onSubmit={handleSubmit}>
