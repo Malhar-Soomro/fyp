@@ -1,6 +1,10 @@
 import React from "react";
 import { navigate } from 'gatsby';
 import { createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase";
+
+
 
 import { auth, provider } from "../../firebase";
 
@@ -44,8 +48,27 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const sendRequest = async (fullName, loanAmountRequested, walletAddress) => {
+
+        //specifying the collection in the db
+        const loanRequests = collection(db, "loanRequests")
+
+        const doc = {
+            fullName,
+            loanAmountRequested,
+            walletAddress
+        }
+        try {
+            await addDoc(loanRequests, doc);
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, sendRequest }}>
             {children}
         </AuthContext.Provider>
     );

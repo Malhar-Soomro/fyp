@@ -1,14 +1,11 @@
-import { Link, navigate } from 'gatsby';
+import { navigate } from 'gatsby';
 import React, { useContext } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { addDoc, collection } from "firebase/firestore"
 
 
 import * as styles from "../styles/form.module.css";
 import { AuthContext } from '../context/AuthContext';
-import { db } from "../../firebase"
-
 
 
 const initialValues = {
@@ -22,41 +19,24 @@ const initialValues = {
     loanDuration: "",
 };
 
-export const loginSchema = Yup.object({
+export const applicationSchema = Yup.object({
     fullName: Yup.string().min(2).max(25).required("Please enter your full name"),
 });
 
 
 const ApplicationForm = () => {
 
-    // const { sendRequest } = useContext(AuthContext);
-    const sendRequest = async (fullName, loanAmountRequested, walletAddress) => {
-
-        //specifying the collection in the db
-        const loanRequests = collection(db, "loanRequests")
-
-        const doc = {
-            fullName,
-            loanAmountRequested,
-            walletAddress
-        }
-        try {
-            await addDoc(loanRequests, doc);
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const { sendRequest } = useContext(AuthContext);
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
         useFormik({
             initialValues,
-            validationSchema: loginSchema,
+            validationSchema: applicationSchema,
             onSubmit: (values, action) => {
                 const { fullName, loanAmountRequested, walletAddress } = values;
                 console.log(fullName, loanAmountRequested, walletAddress)
                 sendRequest(fullName, loanAmountRequested, walletAddress);
-                // action.resetForm();
+                action.resetForm();
             },
         });
     // console.log(errors);
@@ -89,13 +69,14 @@ const ApplicationForm = () => {
 
                         <label htmlFor="loanAmountRequested">Loan Amount Requested</label>
                         <input
-                            type="loanAmountRequested"
+                            type="number"
                             id="loanAmountRequested"
                             autoComplete='off'
+                            step="0.0001"
                             value={values.loanAmountRequested}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder='in eth'
+                            placeholder="Amount (ETH)"
                         />
                         {errors.loanAmountRequested && touched.loanAmountRequested ? (
                             <p className={styles.formError}>{errors.loanAmountRequested}</p>
