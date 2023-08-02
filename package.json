@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@iconscout/react-unicons": "^2.0.2",
+    "ethers": "^5.5.1",
     "firebase": "^10.1.0",
     "formik": "^2.4.2",
     "gatsby": "^5.11.0",

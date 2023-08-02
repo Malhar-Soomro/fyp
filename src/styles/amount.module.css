@@ -1,0 +1,147 @@
+.container{
+    background-color: #151e33;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formContainer{
+    width: 50%;
+    height: 85%;
+    border-radius: 15px;
+    background-color: #253965;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.arrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+}
+
+.arrow button{
+    font-size: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.title{
+    font-size: 26px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.container form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.container form div{
+    display: flex;
+    flex-direction: column;
+}
+
+.container label{
+    text-align: left;
+    margin-bottom: .4rem;
+
+}
+
+
+.container input{
+    border: #5a76b2 1px solid;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    padding: 1rem .5rem;
+    border-radius: .2rem;
+    margin-bottom: 1rem;
+    width: 320px;
+    background-color: #253965;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: center;
+}
+
+
+.submitBtn{
+    /* color:black; */
+    background-color: #e3627f;
+    padding:  1rem;
+    border-radius: .3rem;
+    margin-top: .3rem;
+    cursor: pointer;
+    border: 0;
+    font-size: 18px;
+    line-height: 26px;
+    color: #ffffff;
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.submitBtn:hover{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #e35170;
+}
+
+.submitBtn:disabled{
+    background-color: #2d1c1f;
+    cursor: not-allowed;
+}
+
+.formError{
+    margin-bottom: .5rem;
+    color:rgb(226, 112, 112);
+
+}
+
+/* connect wallet */
+
+.connectWallet{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    gap: 1rem;
+}
+
+.walletBtn{
+    /* color:black; */
+    background-color: #5b5beb;
+    padding:  1rem;
+    border-radius: .3rem;
+    margin-top: .3rem;
+    cursor: pointer;
+    border: 0;
+    font-size: 18px;
+    line-height: 26px;
+    color: #ffffff;
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.walletBtn:hover{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #4a4ae8;
+
+}

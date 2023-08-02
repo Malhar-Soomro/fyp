@@ -1,16 +1,18 @@
 import * as React from "react"
+
 import Navbar from "../components/Navbar"
 import "../styles/global.css"
 import Footer from "../components/Footer"
 import { AuthContext } from "../context/AuthContext"
-
+import { TransactionContext } from "../context/TransactionContext"
 
 
 const IndexPage = () => {
 
-  const data = React.useContext(AuthContext);
+  const { connectWallet } = React.useContext(TransactionContext);
 
-  console.log(data)
+  // connectWallet()
+
   return (
 
     <>
