@@ -1,0 +1,24 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    background-color: #253965;
+    height: 100vh;
+    width: 20vw;
+
+}
+
+.container a{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap:.3rem;
+    padding: 1rem;
+    transition: .3s;
+}
+
+.container a:first-child{
+    margin-top: 1rem;
+}
+.container a:hover{
+    background-color: #3c5385;
+}

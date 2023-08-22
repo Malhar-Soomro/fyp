@@ -4,6 +4,7 @@ import { Link, navigate } from 'gatsby';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+
 import image from "../../static/Google.png"
 import { AuthContext } from '../context/AuthContext';
 
@@ -40,8 +41,9 @@ const Signup = () => {
         });
     console.log(errors)
 
-
-    if (user) return navigate("/");
+    if (user) {
+        return navigate("/");
+    }
 
     return (
         <div className={styles.container}>

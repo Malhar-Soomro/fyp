@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+}
+
+.cards{
+    display: flex;
+    justify-content: center;
+    width: 80vw;
+    margin-top: 3rem;
+    gap: .5rem;
+}
+
+.card{
+    background-color: aliceblue;
+    height: max-content;
+    padding: 1rem;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+.amount, .repayment{
+    color: black;
+}
+
+.repayment{
+    margin-top: .5rem;
+}
+
+.tag{
+    background-color: blue;
+    color: white;
+    border-radius: .5rem;
+    padding: .5rem;
+    font-size: 12px;
+    margin-left: .5rem;
+    cursor: pointer;
+}
