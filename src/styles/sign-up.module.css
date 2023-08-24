@@ -1,6 +1,6 @@
 .container{
     background-color: #151e33;
-    height: 100vh;
+    height: max-content;
 
     display: flex;
     justify-content: center;
@@ -9,7 +9,7 @@
 
 .formContainer{
     width: 50%;
-    height: 85%;
+    height: max-content;
     border-radius: 15px;
     background-color: #253965;
 
@@ -25,6 +25,8 @@
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    margin-top: 2rem;
+
 
 }
 
@@ -49,6 +51,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding: 0 0 2rem;
+
     
 }
 
@@ -63,7 +67,7 @@
 
 }
 
-.container input{
+.container input, .container select{
     border: #5a76b2 1px solid;
     outline: none;
     color: white;
@@ -73,6 +77,11 @@
     margin-bottom: .5rem;
     width: 320px;
     background-color: #253965;
+}
+
+
+.container select{
+    width: 336px;
 }
 
 .loginWithGoogle{

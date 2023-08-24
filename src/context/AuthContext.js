@@ -2,22 +2,27 @@ import React from "react";
 import { navigate } from 'gatsby';
 import { createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import {
+    ref,
+    uploadBytes,
+} from "firebase/storage";
 
 
 
-import { auth, provider } from "../../firebase";
+
+import { auth, provider, db, storage } from "../../firebase";
 
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const createUser = async (email, password) => {
+    const createUser = async (email, password, values) => {
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             console.log(response)
             localStorage.setItem("uid", auth.currentUser.uid);
+            saveUser(values);
             navigate("/");
 
         } catch (error) {
@@ -65,6 +70,47 @@ export const AuthProvider = ({ children }) => {
             console.log(error)
         }
     }
+
+
+    const uploadFile = (IDCard, email) => {
+        if (IDCard == null) return;
+        const imageRef = ref(storage, `images/${email.toString()}`);
+        uploadBytes(imageRef, IDCard).then(() => {
+            alert("image uploaded");
+        });
+    }
+
+    //specifying the collection in the db
+    const userCollectionRef = collection(db, "users")
+    // user info
+    const saveUser = async (values) => {
+        const doc = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            dateOfBirth: values.dateOfBirth,
+            gender: values.gender,
+            occupation: values.occupation,
+            walletAddress: values.walletAddress,
+        }
+
+        try {
+            await addDoc(userCollectionRef, doc);
+            uploadFile(values.IDCard, values.email);
+
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
+
+
+
+
+
 
 
     return (

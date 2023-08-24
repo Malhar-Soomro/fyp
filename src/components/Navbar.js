@@ -24,9 +24,8 @@ const Navbar = () => {
 
             <ul className={styles.list}>
                 <Link>Home</Link>
-                <Link>About</Link>
-                <Link to='application-form'>Application Form</Link>
-                <Link>My Account</Link>
+                <Link to='loan-form'>Apply for loan</Link>
+                <Link to='/dashboard'>Dashboard</Link>
                 <Link>Contact</Link>
 
                 {user ?
