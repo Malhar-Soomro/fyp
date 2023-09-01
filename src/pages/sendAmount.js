@@ -36,7 +36,7 @@ const SendAmount = () => {
         });
     // console.log(errors);
 
-    const user = localStorage.getItem("uid");
+    const user = sessionStorage.getItem("uid");
     // if (!user) return navigate("/sign-up");
 
 

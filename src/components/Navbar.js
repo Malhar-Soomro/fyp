@@ -9,13 +9,13 @@ import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
 
-    const [user, setUser] = React.useState(localStorage.getItem('uid'));
+    const [user, setUser] = React.useState(sessionStorage.getItem('uid'));
     console.log(user)
 
     const logout = async () => {
         await signOut(auth)
         setUser("");
-        localStorage.setItem("uid", "");
+        sessionStorage.setItem("uid", "");
     }
 
     return (

@@ -24,21 +24,21 @@ const initialValues = {
 };
 
 export const signUpSchema = Yup.object({
-    // firstName: Yup.string().min(2).max(25).required("Please enter your first name"),
-    // lastName: Yup.string().min(2).max(25).required("Please enter your last name"),
+    firstName: Yup.string().min(2).max(25).required("Please enter your first name"),
+    lastName: Yup.string().min(2).max(25).required("Please enter your last name"),
     email: Yup.string().email().required("Please enter your email"),
     password: Yup.string().min(6).required("Please enter your password"),
-    // dateOfBirth: Yup
-    //     .date()
-    //     .max(new Date(), "Date of birth can't be in the future")
-    //     .required('Date of birth is required'),
-    // gender: Yup
-    //     .string()
-    //     .oneOf(['male', 'female',], 'Please select a valid option')
-    //     .required('Selection is required'),
-    // occupation: Yup.string().min(2).max(25).required("Please enter your occupation"),
-    // walletAddress: Yup.string().min(42).max(42).required("Please enter your wallet address"),
-    // IDCard: Yup.mixed().required('File is required'),
+    dateOfBirth: Yup
+        .date()
+        .max(new Date(), "Date of birth can't be in the future")
+        .required('Date of birth is required'),
+    gender: Yup
+        .string()
+        .oneOf(['male', 'female',], 'Please select a valid option')
+        .required('Selection is required'),
+    occupation: Yup.string().min(2).max(25).required("Please enter your occupation"),
+    walletAddress: Yup.string().min(42).max(42).required("Please enter your wallet address"),
+    IDCard: Yup.mixed().required('File is required'),
 
 });
 
@@ -46,7 +46,7 @@ const Signup = () => {
 
     const { loginWithGoogle, createUser } = useContext(AuthContext);
 
-    const user = localStorage.getItem("uid");
+    const user = sessionStorage.getItem("uid");
 
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =

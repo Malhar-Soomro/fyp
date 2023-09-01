@@ -20,7 +20,7 @@ export const loginSchema = Yup.object({
 const Login = () => {
 
     const { loginWithGoogle, loginWithEmailAndPassword } = useContext(AuthContext);
-    const user = localStorage.getItem("uid");
+    const user = sessionStorage.getItem("uid");
 
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =

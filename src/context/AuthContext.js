@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             console.log(response)
-            localStorage.setItem("uid", auth.currentUser.uid);
+            sessionStorage.setItem("uid", auth.currentUser.uid);
             saveUser(values);
             navigate("/");
 
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             console.log(response)
-            localStorage.setItem("uid", auth.currentUser.uid);
+            sessionStorage.setItem("uid", auth.currentUser.uid);
             navigate("/");
 
 
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     const loginWithGoogle = async () => {
         try {
             await signInWithPopup(auth, provider).then(result => console.log(result));
-            localStorage.setItem("uid", auth.currentUser.uid);
+            sessionStorage.setItem("uid", auth.currentUser.uid);
             navigate("/")
         } catch (error) {
             console.log(error);

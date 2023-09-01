@@ -37,7 +37,7 @@ const LoanForm = () => {
         });
     // console.log(errors);
 
-    const user = localStorage.getItem("uid");
+    const user = sessionStorage.getItem("uid");
     if (!user) {
         Swal.fire({
             icon: "error",
