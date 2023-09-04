@@ -4,7 +4,16 @@
     background-color: #253965;
     height: 100vh;
     width: 20vw;
+    min-width: 220px;
 
+}
+.arrowButton{
+    margin: .5rem 0;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: none;
 }
 
 .container a{
@@ -20,5 +29,5 @@
     margin-top: 1rem;
 }
 .container a:hover{
-    background-color: #3c5385;
+    background-color: #152953;
 }
