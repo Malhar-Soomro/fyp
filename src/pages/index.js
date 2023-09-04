@@ -20,7 +20,7 @@ const IndexPage = () => {
       <div className="img-container">
         <div className="text">
           <h1 className="title">Want to get instant crypto loan?</h1>
-          <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id molestiae dolorem libero natus assumenda laudantium cumque sed delectus tempore ullam, provident laborum accusantium nisi aliquid dolore a pariatur.</p>
+          <p className="description">Unlock Financial Freedom with Blockchain Loans! Our platform ensures trust, security, and efficiency in every loan transaction. Say goodbye to lengthy approval processes and hello to lightning-fast, hassle-free borrowing.</p>
         </div>
       </div>
       <Footer />
