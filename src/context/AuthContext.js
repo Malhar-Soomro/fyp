@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { navigate } from 'gatsby';
 import { createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import {
     ref,
     uploadBytes,
 } from "firebase/storage";
-
-
 
 
 import { auth, provider, db, storage } from "../../firebase";
@@ -16,6 +14,8 @@ import { auth, provider, db, storage } from "../../firebase";
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
+
+    const [walletAddress, setWalletAddress] = useState(null);
 
     const createUser = async (email, password, values) => {
         try {
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
             const response = await signInWithEmailAndPassword(auth, email, password);
             console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
+            sessionStorage.setItem("email", auth.currentUser.email);
             navigate("/");
 
 
@@ -47,6 +48,8 @@ export const AuthProvider = ({ children }) => {
         try {
             await signInWithPopup(auth, provider).then(result => console.log(result));
             sessionStorage.setItem("uid", auth.currentUser.uid);
+            sessionStorage.setItem("email", auth.currentUser.email);
+
             navigate("/")
         } catch (error) {
             console.log(error);
@@ -97,24 +100,32 @@ export const AuthProvider = ({ children }) => {
         try {
             await addDoc(userCollectionRef, doc);
             uploadFile(values.IDCard, values.email);
+            sessionStorage.setItem("email", values.email);
 
 
         } catch (error) {
             console.log(error)
         }
 
-
     }
 
+    const getWalletAddress = async () => {
+        const email = sessionStorage.getItem('email');
+        const q = query(userCollectionRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // console.log(doc.id, " => ", doc.data());
+            setWalletAddress(doc.data().walletAddress)
+        })
+    }
 
-
-
-
-
+    useEffect(() => {
+        getWalletAddress()
+    }, [walletAddress])
 
 
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, sendRequest }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, sendRequest, walletAddress, setWalletAddress }}>
             {children}
         </AuthContext.Provider>
     );

@@ -4,8 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from 'sweetalert2'
 
-
-
 import * as styles from "../styles/form.module.css";
 import { AuthContext } from '../context/AuthContext';
 
@@ -22,7 +20,8 @@ export const applicationSchema = Yup.object({
 
 const LoanForm = () => {
 
-    const { sendRequest } = useContext(AuthContext);
+    const { walletAddress } = useContext(AuthContext);
+    console.log(walletAddress)
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, } =
         useFormik({
@@ -39,6 +38,15 @@ const LoanForm = () => {
 
     const user = sessionStorage.getItem("uid");
     if (!user) {
+        Swal.fire({
+            icon: "error",
+            title: "create your account",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return navigate("/login")
+    }
+    if (!walletAddress) {
         Swal.fire({
             icon: "error",
             title: "your profile is incomplete",
