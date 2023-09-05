@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { navigate } from 'gatsby';
 import { createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import {
     ref,
     uploadBytes,
@@ -15,7 +15,7 @@ export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [walletAddress, setWalletAddress] = useState(null);
+    const [walletAddress, setWalletAddress] = useState("null");
 
     const createUser = async (email, password, values) => {
         try {
@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }) => {
             console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
             saveUser(values);
+            getWalletAddress();
+
             navigate("/");
 
         } catch (error) {
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }) => {
             console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
+            getWalletAddress();
             navigate("/");
 
 
@@ -49,28 +52,10 @@ export const AuthProvider = ({ children }) => {
             await signInWithPopup(auth, provider).then(result => console.log(result));
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
-
+            getWalletAddress();
             navigate("/")
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    const sendRequest = async (fullName, loanAmountRequested, walletAddress) => {
-
-        //specifying the collection in the db
-        const loanRequests = collection(db, "loanRequests")
-
-        const doc = {
-            fullName,
-            loanAmountRequested,
-            walletAddress
-        }
-        try {
-            await addDoc(loanRequests, doc);
-
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -95,12 +80,14 @@ export const AuthProvider = ({ children }) => {
             gender: values.gender,
             occupation: values.occupation,
             walletAddress: values.walletAddress,
+            loanRequested: false
         }
 
         try {
             await addDoc(userCollectionRef, doc);
             uploadFile(values.IDCard, values.email);
             sessionStorage.setItem("email", values.email);
+            getWalletAddress();
 
 
         } catch (error) {
@@ -114,18 +101,49 @@ export const AuthProvider = ({ children }) => {
         const q = query(userCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            // console.log(doc.id, " => ", doc.data());
             setWalletAddress(doc.data().walletAddress)
+            sessionStorage.setItem("walletAddress", doc.data().walletAddress);
+            console.log(doc.data())
         })
     }
 
+    const saveUserRequest = async (values) => {
+
+        //specifying the collection in the db
+        const requestCollectionRef = collection(db, "requests")
+
+        const email = sessionStorage.getItem('email');
+
+        // const doc = {
+        //     loanAmountRequested: values.loanAmountRequested,
+        //     repaymentDate: values.repaymentDate,
+        //     email: email
+        // }
+
+        // updating doc
+        const q = query(userCollectionRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((document) => {
+            const docRef = doc(db, "users", document.id);
+            updateDoc(docRef, {
+                loanRequested: true
+            })
+        })
+
+        try {
+            // await addDoc(requestCollectionRef, doc);
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
     useEffect(() => {
-        getWalletAddress()
-    }, [walletAddress])
+        getWalletAddress();
+    }, [])
 
 
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, sendRequest, walletAddress, setWalletAddress, saveUser }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, setWalletAddress, saveUser, saveUserRequest }}>
             {children}
         </AuthContext.Provider>
     );

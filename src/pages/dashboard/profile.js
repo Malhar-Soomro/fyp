@@ -43,8 +43,9 @@ const Profile = () => {
     const email = sessionStorage.getItem("email");
 
 
-    const { saveUser, walletAddress } = useContext(AuthContext);
+    const { saveUser } = useContext(AuthContext);
 
+    const walletAddress = sessionStorage.getItem("walletAddress")
     console.log(walletAddress)
 
 

@@ -6,7 +6,8 @@ import { AuthContext } from '../context/AuthContext';
 
 const Sidebar = () => {
 
-    const { walletAddress } = useContext(AuthContext);
+    // const { walletAddress } = useContext(AuthContext);
+    const walletAddress = sessionStorage.getItem("walletAddress");
 
     return (
         <div className={styles.container}>

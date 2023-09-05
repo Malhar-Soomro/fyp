@@ -20,17 +20,15 @@ export const applicationSchema = Yup.object({
 
 const LoanForm = () => {
 
-    const { walletAddress } = useContext(AuthContext);
-    console.log(walletAddress)
+    const { saveUserRequest } = useContext(AuthContext);
+    const walletAddress = sessionStorage.getItem("walletAddress");
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, } =
         useFormik({
             initialValues,
             validationSchema: applicationSchema,
             onSubmit: (values, action) => {
-                const { fullName, loanAmountRequested, walletAddress, gender } = values;
-                console.log(values);
-                // sendRequest(fullName, loanAmountRequested, walletAddress);
+                saveUserRequest(values);
                 action.resetForm();
             },
         });

@@ -9,9 +9,6 @@ import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
 
-    const { setWalletAddress } = useContext(AuthContext);
-
-
     const [user, setUser] = React.useState(sessionStorage.getItem('uid'));
     console.log(user)
 
@@ -20,6 +17,7 @@ const Navbar = () => {
         setUser("");
         sessionStorage.setItem("uid", "");
         sessionStorage.removeItem("email");
+        sessionStorage.removeItem("walletAddress")
 
     }
 
