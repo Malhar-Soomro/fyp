@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     background-color: #253965;
-    height: 100vh;
+    /* height: 100vh; */
+    /* max-height: 130vh; */
     width: 20vw;
     min-width: 220px;
 

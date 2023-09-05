@@ -1,5 +1,8 @@
 .container{
     display: flex;
+    background-color: #151e33;
+    min-height: 100vh;
+    height: max-content;
 }
 
 .cards{
