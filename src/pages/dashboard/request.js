@@ -4,9 +4,9 @@ import Swal from 'sweetalert2'
 import { navigate } from 'gatsby';
 
 
-import * as styles from "../../styles/requests.module.css";
+import * as styles from "../../styles/request.module.css";
 
-const Requests = () => {
+const Request = () => {
 
     const user = sessionStorage.getItem("uid");
     if (!user) {
@@ -31,17 +31,10 @@ const Requests = () => {
                     </div>
                     <span className={styles.tag}>applied</span>
                 </div>
-                <div className={styles.card}>
-                    <div>
-                        <p className={styles.amount}>amount requested: 0.0002ETH</p>
-                        <p className={styles.repayment}>repayment date: 15-8-2023</p>
-                    </div>
-                    <span className={styles.tag}>applied</span>
-                </div>
 
             </div>
         </div>
     )
 }
 
-export default Requests
+export default Request

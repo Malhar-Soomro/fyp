@@ -16,9 +16,9 @@ const Sidebar = () => {
                 <UilCreateDashboard />
                 <span>Dashboard</span>
             </Link>
-            <Link to='/dashboard/requests' activeStyle={{ backgroundColor: "#152953" }}>
+            <Link to='/dashboard/request' activeStyle={{ backgroundColor: "#152953" }}>
                 <UilMessage />
-                <span>Requests</span>
+                <span>Request</span>
             </Link>
             {!walletAddress && <Link to='/dashboard/profile' activeStyle={{ backgroundColor: "#152953" }}>
                 <UilUserCircle />
