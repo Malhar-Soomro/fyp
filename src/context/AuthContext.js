@@ -15,7 +15,6 @@ export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [walletAddress, setWalletAddress] = useState("null");
 
     const createUser = async (email, password, values) => {
         try {
@@ -101,8 +100,9 @@ export const AuthProvider = ({ children }) => {
         const q = query(userCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            setWalletAddress(doc.data().walletAddress)
             sessionStorage.setItem("walletAddress", doc.data().walletAddress);
+            console.log(doc.data())
+            sessionStorage.setItem("loanRequested", doc.data().loanRequested);
             console.log(doc.data())
         })
     }
@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, setWalletAddress, saveUser, saveUserRequest }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, saveUser, saveUserRequest }}>
             {children}
         </AuthContext.Provider>
     );

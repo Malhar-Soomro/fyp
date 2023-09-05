@@ -22,6 +22,8 @@ const LoanForm = () => {
 
     const { saveUserRequest } = useContext(AuthContext);
     const walletAddress = sessionStorage.getItem("walletAddress");
+    const loanRequested = sessionStorage.getItem("loanRequested");
+
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, } =
         useFormik({
@@ -44,6 +46,7 @@ const LoanForm = () => {
         });
         return navigate("/sign-up")
     }
+
     if (!walletAddress) {
         Swal.fire({
             icon: "error",
@@ -53,6 +56,17 @@ const LoanForm = () => {
         });
         return navigate("/dashboard/profile");
     }
+
+    if (loanRequested === "true") {
+        Swal.fire({
+            icon: "error",
+            title: "you have taken loan",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return navigate("/");
+    }
+
 
     return (
         <div className={styles.container}>
