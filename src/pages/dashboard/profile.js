@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Swal from 'sweetalert2'
 import { navigate, Link } from 'gatsby';
@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 
 import * as styles from "../../styles/profile.module.css"
+import { AuthContext } from '../../context/AuthContext';
 
 
 const initialValues = {
@@ -14,8 +15,6 @@ const initialValues = {
     lastName: "",
     dateOfBirth: "",
     gender: "",
-    occupation: "",
-    repaymentDate: "",
     occupation: "",
     walletAddress: "",
     IDCard: "",
@@ -33,24 +32,31 @@ export const profileSchema = Yup.object({
         .oneOf(['male', 'female',], 'Please select a valid option')
         .required('Selection is required'),
     occupation: Yup.string().min(2).max(25).required("Please enter your occupation"),
-    walletAddress: Yup.string().min(42).max(42).required("Please enter your wallet address"),
-    IDCard: Yup.mixed().required('File is required'),
+    // walletAddress: Yup.string().min(42).max(42).required("Please enter your wallet address"),
+    // IDCard: Yup.mixed().required('File is required'),
 
 });
 
 const Profile = () => {
 
     const user = sessionStorage.getItem("uid");
+    const email = sessionStorage.getItem("email");
+
+
+    const { saveUser, walletAddress } = useContext(AuthContext);
+
+    console.log(walletAddress)
+
+
+
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
         useFormik({
             initialValues,
             validationSchema: profileSchema,
             onSubmit: (values, action) => {
-                const { email, password } = values;
-                console.log(values)
-
-                // saveCreatedUser(auth.currentUser.email, values);
+                console.log({ ...values, email })
+                saveUser({ ...values, email });
                 // action.resetForm();
             },
         });
@@ -69,11 +75,20 @@ const Profile = () => {
         return navigate("/sign-up")
     }
 
+    if (walletAddress) {
+        Swal.fire({
+            icon: "success",
+            title: "your profile is complete, you can apply for loan",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return navigate("/");
+    }
+
 
     return (
         <div className={styles.container}>
             <Sidebar />
-            {/* <div className={styles.container}> */}
             <div className={styles.formContainer}>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -178,9 +193,6 @@ const Profile = () => {
 
                 </form>
             </div>
-
-
-            {/* </div> */}
         </div>
     )
 }
