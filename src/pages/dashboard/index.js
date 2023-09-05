@@ -17,7 +17,7 @@ const Dashboard = () => {
             showConfirmButton: false,
             timer: 2000
         });
-        return navigate("/login")
+        return navigate("/sign-up")
     }
     return (
         <div className={styles.container}>

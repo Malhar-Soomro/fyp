@@ -44,7 +44,7 @@ const LoanForm = () => {
             showConfirmButton: false,
             timer: 2000
         });
-        return navigate("/login")
+        return navigate("/sign-up")
     }
     if (!walletAddress) {
         Swal.fire({

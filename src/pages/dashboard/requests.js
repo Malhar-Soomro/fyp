@@ -16,7 +16,7 @@ const Requests = () => {
             showConfirmButton: false,
             timer: 2000
         });
-        return navigate("/login")
+        return navigate("/sign-up")
     }
 
     return (
@@ -24,13 +24,6 @@ const Requests = () => {
             <Sidebar />
             <div className={styles.cards}>
 
-                <div className={styles.card}>
-                    <div>
-                        <p className={styles.amount}>amount requested: 0.0002ETH</p>
-                        <p className={styles.repayment}>repayment date: 15-8-2023</p>
-                    </div>
-                    <span className={styles.tag}>applied</span>
-                </div>
                 <div className={styles.card}>
                     <div>
                         <p className={styles.amount}>amount requested: 0.0002ETH</p>
