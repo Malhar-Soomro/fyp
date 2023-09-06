@@ -19,7 +19,7 @@ export const loginSchema = Yup.object({
 
 const Login = () => {
 
-    const { loginWithGoogle, loginWithEmailAndPassword } = useContext(AuthContext);
+    const value = useContext(AuthContext);
     const user = sessionStorage.getItem("uid");
 
 
@@ -29,7 +29,7 @@ const Login = () => {
             validationSchema: loginSchema,
             onSubmit: (values, action) => {
                 const { email, password } = values;
-                loginWithEmailAndPassword(email, password)
+                value?.loginWithEmailAndPassword(email, password)
                 // action.resetForm();
             },
         });
@@ -78,7 +78,7 @@ const Login = () => {
 
                             <button className={styles.submitBtn} type="submit">Login</button>
                         </div>
-                        <button type='button' onClick={loginWithGoogle} className={styles.loginWithGoogle}>
+                        <button type='button' onClick={value?.loginWithGoogle} className={styles.loginWithGoogle}>
                             Login with
                             <img src={image} alt="google" />
 

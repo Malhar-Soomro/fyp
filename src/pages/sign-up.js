@@ -44,7 +44,7 @@ export const signUpSchema = Yup.object({
 
 const Signup = () => {
 
-    const { loginWithGoogle, createUser } = useContext(AuthContext);
+    const value = useContext(AuthContext);
 
     const user = sessionStorage.getItem("uid");
 
@@ -57,7 +57,7 @@ const Signup = () => {
                 const { email, password } = values;
                 console.log(values)
 
-                createUser(email, password, values);
+                value.createUser(email, password, values);
                 // uploadFile(values.IDCard, values.email);
                 // action.resetForm();
             },
@@ -201,7 +201,7 @@ const Signup = () => {
 
                             <button className={styles.submitBtn} type="submit">Sign Up</button>
                         </div>
-                        <button type='button' onClick={loginWithGoogle} className={styles.loginWithGoogle}>
+                        <button type='button' onClick={value?.loginWithGoogle} className={styles.loginWithGoogle}>
                             Login with
                             <img src={image} alt="google" />
 

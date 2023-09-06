@@ -20,7 +20,7 @@ export const applicationSchema = Yup.object({
 
 const LoanForm = () => {
 
-    const { saveUserRequest } = useContext(AuthContext);
+    const value = useContext(AuthContext);
     const walletAddress = sessionStorage.getItem("walletAddress");
     const loanRequested = sessionStorage.getItem("loanRequested");
 
@@ -30,7 +30,7 @@ const LoanForm = () => {
             initialValues,
             validationSchema: applicationSchema,
             onSubmit: (values, action) => {
-                saveUserRequest(values);
+                value.saveUserRequest(values);
                 action.resetForm();
             },
         });
