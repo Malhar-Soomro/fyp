@@ -14,7 +14,12 @@ const initialValues = {
 };
 
 export const applicationSchema = Yup.object({
-    // fullName: Yup.string().min(2).max(25).required("Please enter your full name"),
+    repaymentDate: Yup
+        .date()
+        .min(new Date(), "Repayment Date can't be in the past")
+        .required('Date of birth is required'),
+    loanAmountRequested: Yup.number().required("Please enter the amount"),
+
 });
 
 
@@ -37,15 +42,15 @@ const LoanForm = () => {
     // console.log(errors);
 
     const user = sessionStorage.getItem("uid");
-    if (!user) {
-        Swal.fire({
-            icon: "error",
-            title: "create your account",
-            showConfirmButton: false,
-            timer: 2000
-        });
-        return navigate("/sign-up")
-    }
+    // if (!user) {
+    //     Swal.fire({
+    //         icon: "error",
+    //         title: "create your account",
+    //         showConfirmButton: false,
+    //         timer: 2000
+    //     });
+    //     return navigate("/sign-up")
+    // }
 
     if (!walletAddress) {
         Swal.fire({
@@ -60,7 +65,7 @@ const LoanForm = () => {
     if (loanRequested === "true") {
         Swal.fire({
             icon: "error",
-            title: "you have taken loan",
+            title: "you have taken the loan",
             showConfirmButton: false,
             timer: 2000
         });
