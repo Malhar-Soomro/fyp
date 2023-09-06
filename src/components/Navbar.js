@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import * as styles from "../styles/navbar.module.css";
 import { Link } from 'gatsby';
 import { signOut, } from "firebase/auth"
+import Swal from 'sweetalert2';
 
 import { auth } from "../../firebase"
-import { AuthContext } from '../context/AuthContext';
 
 
 const Navbar = () => {
@@ -14,10 +14,17 @@ const Navbar = () => {
 
     const logout = async () => {
         await signOut(auth)
+        Swal.fire({
+            icon: "success",
+            title: "Signed Out !",
+            showConfirmButton: false,
+            timer: 1000
+        });
         setUser("");
         sessionStorage.setItem("uid", "");
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("walletAddress")
+        sessionStorage.removeItem("loanRequested")
 
     }
 

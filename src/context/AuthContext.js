@@ -6,6 +6,8 @@ import {
     ref,
     uploadBytes,
 } from "firebase/storage";
+import Swal from 'sweetalert2'
+
 
 
 import { auth, provider, db, storage } from "../../firebase";
@@ -22,12 +24,19 @@ export const AuthProvider = ({ children }) => {
             console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
             saveUser(values);
-            getWalletAddress();
-
-            navigate("/");
+            getUserData();
 
         } catch (error) {
-            console.log(error)
+            if (error.code === "auth/email-already-in-use") {
+                // Fire the alert
+                Swal.fire({
+                    icon: "error",
+                    title: "Account Already Exists !",
+                    text: "Email address is already in use by another account",
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+            }
         }
     }
 
@@ -37,12 +46,38 @@ export const AuthProvider = ({ children }) => {
             console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
-            getWalletAddress();
+
+            Swal.fire({
+                icon: "success",
+                title: "logged in successfully",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            getUserData();
             navigate("/");
 
 
         } catch (error) {
-            console.log(error)
+            if (error.code === "auth/user-not-found") {
+                // Fire the alert
+                Swal.fire({
+                    icon: "error",
+                    title: "User not found !",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+
+            else if (error.code === "auth/too-many-requests") {
+                // Fire the alert
+                Swal.fire({
+                    icon: "error",
+                    title: "Too many failed login attempts, please try again later !",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
         }
     }
 
@@ -51,10 +86,28 @@ export const AuthProvider = ({ children }) => {
             await signInWithPopup(auth, provider).then(result => console.log(result));
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
-            getWalletAddress();
+
+            Swal.fire({
+                icon: "success",
+                title: "logged in successfully",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            getUserData();
             navigate("/")
         } catch (error) {
-            console.log(error);
+
+            if (error.code === "auth/too-many-requests") {
+                // Fire the alert
+                Swal.fire({
+                    icon: "error",
+                    title: "Too many failed login attempts, please try again later !",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+
         }
     }
 
@@ -63,7 +116,6 @@ export const AuthProvider = ({ children }) => {
         if (IDCard == null) return;
         const imageRef = ref(storage, `images/${email.toString()}`);
         uploadBytes(imageRef, IDCard).then(() => {
-            alert("image uploaded");
         });
     }
 
@@ -86,7 +138,15 @@ export const AuthProvider = ({ children }) => {
             await addDoc(userCollectionRef, doc);
             uploadFile(values.IDCard, values.email);
             sessionStorage.setItem("email", values.email);
-            getWalletAddress();
+            Swal.fire({
+                icon: "success",
+                title: "account created",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            navigate("/");
+            getUserData();
+
 
 
         } catch (error) {
@@ -95,15 +155,13 @@ export const AuthProvider = ({ children }) => {
 
     }
 
-    const getWalletAddress = async () => {
+    const getUserData = async () => {
         const email = sessionStorage.getItem('email');
         const q = query(userCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             sessionStorage.setItem("walletAddress", doc.data().walletAddress);
-            console.log(doc.data())
             sessionStorage.setItem("loanRequested", doc.data().loanRequested);
-            console.log(doc.data())
         })
     }
 
@@ -114,11 +172,12 @@ export const AuthProvider = ({ children }) => {
 
         const email = sessionStorage.getItem('email');
 
-        // const doc = {
-        //     loanAmountRequested: values.loanAmountRequested,
-        //     repaymentDate: values.repaymentDate,
-        //     email: email
-        // }
+        const document = {
+            loanAmountRequested: values.loanAmountRequested,
+            repaymentDate: values.repaymentDate,
+            email: email,
+            status: "applied"
+        }
 
         // updating doc
         const q = query(userCollectionRef, where("email", "==", email));
@@ -131,14 +190,17 @@ export const AuthProvider = ({ children }) => {
         })
 
         try {
-            // await addDoc(requestCollectionRef, doc);
+            await addDoc(requestCollectionRef, document);
+            navigate("/");
+            getUserData();
+
 
         } catch (error) {
             console.log(error)
         }
     }
     useEffect(() => {
-        getWalletAddress();
+        getUserData();
     }, [])
 
 
