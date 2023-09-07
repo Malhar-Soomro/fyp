@@ -1,10 +1,11 @@
-import { navigate } from 'gatsby';
+import { navigate, useStaticQuery } from 'gatsby';
 import React, { useContext } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Swal from 'sweetalert2';
 
-import * as styles from "../styles/amount.module.css";
-import { TransactionContext } from '../context/TransactionContext';
+import * as styles from "../../styles/amount.module.css";
+import { TransactionContext } from "../../context/TransactionContext";
 
 
 const initialValues = {
@@ -17,7 +18,7 @@ export const amountSchema = Yup.object({
     amount: Yup.string().required("Please enter amount"),
 });
 
-const SendAmount = () => {
+const SendAmount = ({ token }) => {
 
 
     const { connectWallet, currentAccount, sendAmount } = useContext(TransactionContext);
@@ -36,8 +37,16 @@ const SendAmount = () => {
         });
     // console.log(errors);
 
-    const user = sessionStorage.getItem("uid");
-    // if (!user) return navigate("/sign-up");
+
+    if (token !== "11223") {
+        Swal.fire({
+            icon: "error",
+            title: "you are not authorized to access this",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return navigate("/")
+    }
 
 
     if (currentAccount) {
