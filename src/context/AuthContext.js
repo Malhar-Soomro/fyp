@@ -8,14 +8,16 @@ import {
 } from "firebase/storage";
 import Swal from 'sweetalert2'
 
-
-
 import { auth, provider, db, storage } from "../../firebase";
 
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
+
+    const email = sessionStorage.getItem('email');
+
+    const [requestData, setRequestData] = useState({ amount: "", repaymentDate: "", status: "" });
 
 
     const createUser = async (email, password, values) => {
@@ -55,6 +57,7 @@ export const AuthProvider = ({ children }) => {
             });
 
             getUserData();
+            getUserRequest();
             navigate("/");
 
 
@@ -95,6 +98,7 @@ export const AuthProvider = ({ children }) => {
             });
 
             getUserData();
+            getUserRequest();
             navigate("/")
         } catch (error) {
 
@@ -156,7 +160,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     const getUserData = async () => {
-        const email = sessionStorage.getItem('email');
         const q = query(userCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -165,12 +168,23 @@ export const AuthProvider = ({ children }) => {
         })
     }
 
+    //specifying the collection in the db
+    const requestCollectionRef = collection(db, "requests")
+
+    const getUserRequest = async () => {
+        const q = query(requestCollectionRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data())
+            setRequestData({
+                amount: doc.data().loanAmountRequested,
+                repaymentDate: doc.data().repaymentDate,
+                status: doc.data().status
+            });
+        })
+    }
+
     const saveUserRequest = async (values) => {
-
-        //specifying the collection in the db
-        const requestCollectionRef = collection(db, "requests")
-
-        const email = sessionStorage.getItem('email');
 
         const document = {
             loanAmountRequested: values.loanAmountRequested,
@@ -193,6 +207,7 @@ export const AuthProvider = ({ children }) => {
             await addDoc(requestCollectionRef, document);
             navigate("/");
             getUserData();
+            getUserRequest();
 
 
         } catch (error) {
@@ -201,11 +216,13 @@ export const AuthProvider = ({ children }) => {
     }
     useEffect(() => {
         getUserData();
+        getUserRequest();
+
     }, [])
 
 
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, saveUser, saveUserRequest }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, saveUser, saveUserRequest, getUserRequest, requestData }}>
             {children}
         </AuthContext.Provider>
     );

@@ -42,15 +42,15 @@ const LoanForm = () => {
     // console.log(errors);
 
     const user = sessionStorage.getItem("uid");
-    // if (!user) {
-    //     Swal.fire({
-    //         icon: "error",
-    //         title: "create your account",
-    //         showConfirmButton: false,
-    //         timer: 2000
-    //     });
-    //     return navigate("/sign-up")
-    // }
+    if (!user) {
+        Swal.fire({
+            icon: "error",
+            title: "create your account",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return navigate("/sign-up")
+    }
 
     if (!walletAddress) {
         Swal.fire({
