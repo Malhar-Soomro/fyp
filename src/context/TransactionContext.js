@@ -5,11 +5,11 @@ import { contractABI, contractAddress } from "../utils/constants";
 
 export const TransactionContext = React.createContext();
 
-const { ethereum } = window;
+// const { ethereum } = window;
 
 
 const getEthereumContract = () => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
 
     const signer = provider.getSigner();
 
@@ -24,44 +24,44 @@ export const TransactionProvider = ({ children }) => {
 
     const connectWallet = async () => {
         try {
-            if (!ethereum) return alert("Please install metamask");
+            if (!window?.ethereum) return alert("Please install metamask");
 
-            const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+            const accounts = await window?.ethereum.request({ method: "eth_requestAccounts" });
 
             setCurrentAccount(accounts[0])
         }
         catch (error) {
             console.log(error);
 
-            throw new Error("No ethereum object.")
+            // throw new Error("No ethereum object.")
         }
     }
 
     const checkIfWalletIsConnected = async () => {
 
         try {
-            if (!ethereum) return alert("Please install metamask");
+            if (!window?.ethereum) return alert("Please install metamask");
 
-            const accounts = await ethereum.request({ method: "eth_accounts" });
+            const accounts = await window?.ethereum.request({ method: "eth_accounts" });
 
             if (accounts.length) {
                 setCurrentAccount(accounts[0])
                 getAllTransactions();
             }
             else {
-                console.log("no accounts found");
+                // console.log("no accounts found");
             }
         }
         catch (error) {
             console.log(error);
-            throw new Error("No ethereum object.")
+            // throw new Error("No ethereum object.")
         }
     }
 
 
     const sendAmount = async (walletAddress, amount) => {
         try {
-            if (!ethereum) return alert("Please install metamask");
+            if (!window?.ethereum) return alert("Please install metamask");
 
             // get the data from the form
             const transactionContract = getEthereumContract();
@@ -69,7 +69,7 @@ export const TransactionProvider = ({ children }) => {
             const parsedAmount = ethers.utils.parseEther(amount);
 
 
-            await ethereum.request({
+            await window?.ethereum.request({
                 method: "eth_sendTransaction",
                 params: [{
                     from: currentAccount,
@@ -103,7 +103,7 @@ export const TransactionProvider = ({ children }) => {
     }
 
     const getAllTransactions = async () => {
-        if (!ethereum) return alert("Please install metamask");
+        if (!window?.ethereum) return alert("Please install metamask");
 
         const transactionContract = getEthereumContract();
 
