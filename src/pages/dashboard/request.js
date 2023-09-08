@@ -10,9 +10,11 @@ import { AuthContext } from '../../context/AuthContext';
 const Request = () => {
 
     const value = useContext(AuthContext);
+    const { amount } = value?.requestData;
 
     useEffect(() => {
-        console.log(value.requestData)
+        value.getUserRequest();
+        console.log("ok")
     }, [])
 
     const user = sessionStorage.getItem("uid");
@@ -27,9 +29,10 @@ const Request = () => {
     }
 
     return (
+
         <div className={styles.container}>
             <Sidebar />
-            <div className={styles.cards}>
+            {amount ? <div className={styles.cards}>
 
                 <div className={styles.card}>
                     <div>
@@ -38,8 +41,11 @@ const Request = () => {
                     </div>
                     <span onClick={value.getUserRequest} className={styles.tag}>{value?.requestData?.status}</span>
                 </div>
-
-            </div>
+            </div> :
+                <div className='noText'>
+                    <p>no request </p>
+                </div>
+            }
         </div>
     )
 }

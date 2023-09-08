@@ -21,7 +21,8 @@ export const amountSchema = Yup.object({
 const SendAmount = ({ token }) => {
 
 
-    const { connectWallet, currentAccount, sendAmount } = useContext(TransactionContext);
+    // const { connectWallet, currentAccount, sendAmount } = useContext(TransactionContext);
+    const contextValues = useContext(TransactionContext);
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
         useFormik({
@@ -31,7 +32,7 @@ const SendAmount = ({ token }) => {
                 console.log(values)
                 const { walletAddress, amount } = values;
                 console.log(walletAddress, amount)
-                sendAmount(walletAddress, amount);
+                contextValues?.sendAmount(walletAddress, amount);
                 // action.resetForm();
             },
         });
@@ -49,7 +50,7 @@ const SendAmount = ({ token }) => {
     }
 
 
-    if (currentAccount) {
+    if (contextValues?.currentAccount) {
         return (
             <div className={styles.container}>
                 <div className={styles.formContainer}>
@@ -112,7 +113,7 @@ const SendAmount = ({ token }) => {
                 <div className={styles.btnContainer}>
                     <button
                         className={styles.walletBtn}
-                        onClick={connectWallet}
+                        onClick={contextValues?.connectWallet}
                     // type="submit"
                     >
                         Connect Wallet
