@@ -22,8 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     const createUser = async (email, password, values) => {
         try {
-            const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response)
+            await createUserWithEmailAndPassword(auth, email, password);
             sessionStorage.setItem("uid", auth.currentUser.uid);
             saveUser(values);
             getUserData();
@@ -45,7 +44,6 @@ export const AuthProvider = ({ children }) => {
     const loginWithEmailAndPassword = async (email, password) => {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
-            console.log(response)
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
 
@@ -86,7 +84,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, provider).then(result => console.log(result));
+            await signInWithPopup(auth, provider);
             sessionStorage.setItem("uid", auth.currentUser.uid);
             sessionStorage.setItem("email", auth.currentUser.email);
 
@@ -148,8 +146,9 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
                 timer: 2000
             });
-            navigate("/");
             getUserData();
+            navigate("/");
+
 
 
 
@@ -160,6 +159,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const getUserData = async () => {
+        const email = sessionStorage.getItem('email');
         const q = query(userCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -169,13 +169,14 @@ export const AuthProvider = ({ children }) => {
     }
 
     //specifying the collection in the db
-    const requestCollectionRef = collection(db, "requests")
 
     const getUserRequest = async () => {
+        const requestCollectionRef = collection(db, "requests")
+        const email = sessionStorage.getItem('email');
+
         const q = query(requestCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.data())
             setRequestData({
                 amount: doc.data().loanAmountRequested,
                 repaymentDate: doc.data().repaymentDate,
@@ -185,6 +186,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     const saveUserRequest = async (values) => {
+        const requestCollectionRef = collection(db, "requests")
+
 
         const document = {
             loanAmountRequested: values.loanAmountRequested,
@@ -218,11 +221,11 @@ export const AuthProvider = ({ children }) => {
         getUserData();
         getUserRequest();
 
-    }, [])
+    }, [email]);
 
 
     return (
-        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, saveUser, saveUserRequest, getUserRequest, requestData }}>
+        <AuthContext.Provider value={{ loginWithGoogle, createUser, loginWithEmailAndPassword, saveUser, saveUserRequest, getUserRequest, requestData, getUserData, setRequestData }}>
             {children}
         </AuthContext.Provider>
     );
