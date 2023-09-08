@@ -5,12 +5,13 @@ import { signOut, } from "firebase/auth"
 import Swal from 'sweetalert2';
 
 import { auth } from "../../firebase"
+import { AuthContext } from '../context/AuthContext';
 
 
 const Navbar = () => {
 
     const [user, setUser] = React.useState(sessionStorage.getItem('uid'));
-    console.log(user)
+    const values = useContext(AuthContext);
 
     const logout = async () => {
         await signOut(auth)
@@ -25,6 +26,7 @@ const Navbar = () => {
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("walletAddress")
         sessionStorage.removeItem("loanRequested")
+        values.setRequestData({ amount: "", repaymentDate: "", status: "" });
 
     }
 
