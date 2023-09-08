@@ -4,14 +4,9 @@ import Navbar from "../components/Navbar"
 import "../styles/global.css"
 import Footer from "../components/Footer"
 import { AuthContext } from "../context/AuthContext"
-import { TransactionContext } from "../context/TransactionContext"
 
 
 const IndexPage = () => {
-
-  const { connectWallet } = React.useContext(TransactionContext);
-
-  // connectWallet()
 
   return (
 

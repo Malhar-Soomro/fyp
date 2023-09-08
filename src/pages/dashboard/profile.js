@@ -56,7 +56,6 @@ const Profile = () => {
             initialValues,
             validationSchema: profileSchema,
             onSubmit: (values, action) => {
-                console.log({ ...values, email })
                 saveUser({ ...values, email });
                 // action.resetForm();
             },
