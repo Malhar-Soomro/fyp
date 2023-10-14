@@ -45,3 +45,36 @@
     color: #37c7da;
     font:900;
 }
+
+/* connect wallet */
+
+.connectWallet{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    gap: 1rem;
+}
+
+.walletBtn{
+    /* color:black; */
+    background-color: #5b5beb;
+    padding:  1rem;
+    border-radius: .3rem;
+    margin-top: .3rem;
+    cursor: pointer;
+    border: 0;
+    font-size: 18px;
+    line-height: 26px;
+    color: #ffffff;
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.walletBtn:hover{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #4a4ae8;
+
+}

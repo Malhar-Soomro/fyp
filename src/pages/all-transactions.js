@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import * as styles from "../styles/all-transactions.module.css";
+import { TransactionContext } from '../context/TransactionContext';
 
 
 const transactions = [
@@ -64,20 +65,21 @@ const shortenAddress = (address) => `${address.slice(0, 5)}...${address.slice(ad
 
 
 const TransactionCard = ({ addressTo, addressFrom, timestamp, amount }) => {
+    console.log(addressFrom, addressTo, timestamp)
     return (
         <div className={styles.card}>
             <div className={styles.cardHeader}>
                 <a href="#">
-                    <p>From: 0x348...Abd6</p>
+                    <p>From: {shortenAddress(addressFrom)}</p>
                 </a>
                 <a href="#">
-                    <p>To: 0x5c3...15df</p>
+                    <p>To: {shortenAddress(addressTo)}</p>
                 </a>
-                <p className="">Amount: 0.00005 ETH</p>
+                <p className="">Amount: {amount} ETH</p>
 
             </div>
             <div className={styles.timestamp}>
-                <p>1/3/2023</p>
+                <p>{timestamp}</p>
             </div>
         </div>
 
@@ -85,21 +87,45 @@ const TransactionCard = ({ addressTo, addressFrom, timestamp, amount }) => {
 }
 
 const AllTransactions = () => {
-    return (
-        <div className={styles.container}>
-            <h2>
-                All Transactions
-            </h2>
-            <div className={styles.cards}>
-                {transactions.reverse().map((transaction, index) => {
-                    return (
-                        <TransactionCard key={index} {...transaction} />
-                    )
-                })}
-                {/* <TransactionCard /> */}
+    const { allTransactions, currentAccount, connectWallet, getAllTransactions } = useContext(TransactionContext);
+    console.log(allTransactions)
+
+    // useEffect(() => {
+    //     getAllTransactions()
+    // }, [])
+
+    if (currentAccount) {
+        return (
+            <div className={styles.container}>
+                <h2>
+                    All Transactions
+                </h2>
+                <div className={styles.cards}>
+                    {allTransactions.reverse().map((transaction, index) => {
+                        return (
+                            <TransactionCard key={index} {...transaction} />
+                        )
+                    })}
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+    else {
+        return (
+            <div className={styles.connectWallet}>
+                <h2>Connect with your metamask wallet</h2>
+                <div className={styles.btnContainer}>
+                    <button
+                        className={styles.walletBtn}
+                        onClick={connectWallet}
+                    // type="submit"
+                    >
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default AllTransactions

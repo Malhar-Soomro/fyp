@@ -27,6 +27,7 @@ const getEthereumContract = () => {
 
 export const TransactionProvider = ({ children }) => {
     const [currentAccount, setCurrentAccount] = useState();
+    const [allTransactions, setAllTransactions] = useState([]);
 
     const connectWallet = async () => {
         try {
@@ -88,15 +89,15 @@ export const TransactionProvider = ({ children }) => {
                 }]
             });
 
-            // const transactionHash = await transactionContract.addToBlockchain(walletAddress, parsedAmount, "msg", "keyword");
+            const transactionHash = await transactionContract.addToBlockchain(walletAddress, parsedAmount, "msg", "keyword");
 
             // setIsLoading(true);
-            // console.log(`Loading - ${transactionHash.hash}`);
-            // await transactionHash.wait();
+            console.log(`Loading - ${transactionHash.hash}`);
+            await transactionHash.wait();
             // setIsLoading(false);
-            // console.log(`Success - ${transactionHash.hash}`)
+            console.log(`Success - ${transactionHash.hash}`)
 
-            // const transactionCount = await transactionContract.getTransactionCount();
+            const transactionCount = await transactionContract.getTransactionCount();
 
             if (amountType == "repayment") {
                 const userCollectionRef = collection(db, "users")
@@ -151,14 +152,14 @@ export const TransactionProvider = ({ children }) => {
         const structuredTransactions = availableTransactions.map((transaction) => ({
             addressTo: transaction.receiver,
             addressFrom: transaction.sender,
-            timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
+            timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleDateString(),
             message: transaction.message,
             keyword: transaction.keyword,
             amount: parseInt(transaction.amount._hex) / (10 ** 18),
         }));
 
         // setTransactions(structuredTransactions);
-        console.log(structuredTransactions)
+        setAllTransactions(structuredTransactions);
 
         return structuredTransactions;
     }
@@ -169,7 +170,7 @@ export const TransactionProvider = ({ children }) => {
 
 
     return (
-        <TransactionContext.Provider value={{ connectWallet, currentAccount, sendAmount }}>
+        <TransactionContext.Provider value={{ connectWallet, currentAccount, sendAmount, allTransactions, getAllTransactions }}>
             {children}
         </TransactionContext.Provider>
     )
