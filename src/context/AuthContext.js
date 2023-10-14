@@ -176,6 +176,7 @@ export const AuthProvider = ({ children }) => {
 
         const q = query(requestCollectionRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
+        setRequestData({});
         querySnapshot.forEach((doc) => {
             setRequestData({
                 amount: doc.data().loanAmountRequested,
@@ -187,6 +188,8 @@ export const AuthProvider = ({ children }) => {
 
     const saveUserRequest = async (values) => {
         const requestCollectionRef = collection(db, "requests")
+        const email = sessionStorage.getItem('email');
+
 
 
         const document = {

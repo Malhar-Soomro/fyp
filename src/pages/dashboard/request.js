@@ -10,12 +10,18 @@ import { AuthContext } from '../../context/AuthContext';
 const Request = () => {
 
     const value = useContext(AuthContext);
-    const { amount } = value?.requestData;
+    const { amount, status } = value?.requestData;
 
     useEffect(() => {
         value.getUserRequest();
-        console.log("ok")
+        console.log(value?.requestData)
     }, [])
+
+    const repay = () => {
+        if (status == "repay") {
+            navigate("/repay");
+        }
+    }
 
     const user = sessionStorage.getItem("uid");
     if (!user) {
@@ -39,7 +45,10 @@ const Request = () => {
                         <p className={styles.amount}>amount requested: {value?.requestData?.amount}ETH</p>
                         <p className={styles.repayment}>repayment date: {value?.requestData?.repaymentDate}</p>
                     </div>
-                    <span onClick={value.getUserRequest} className={styles.tag}>{value?.requestData?.status}</span>
+                    <button
+                        style={status != "repay" ? { cursor: "not-allowed" } : { cursor: "pointer" }}
+                        onClick={repay}
+                        className={styles.tag}>{value?.requestData?.status}</button>
                 </div>
             </div> :
                 <div className='noText'>

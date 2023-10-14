@@ -4,50 +4,37 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from 'sweetalert2';
 
-import * as styles from "../../styles/amount.module.css";
-import { TransactionContext } from "../../context/TransactionContext";
-
+import * as styles from "../styles/amount.module.css";
+import { TransactionContext } from "../context/TransactionContext";
 
 const initialValues = {
-    walletAddress: "",
+    walletAddress: "0x278C0f6227EbdE53314fA97d91214086DD92fF3E",
     amount: "",
 };
 
-export const amountSchema = Yup.object({
+export const repaySchema = Yup.object({
     walletAddress: Yup.string().min(20).required("Please enter your wallet address"),
     amount: Yup.string().required("Please enter amount"),
 });
 
-const SendAmount = ({ token }) => {
+const Repay = () => {
 
-
-    // const { connectWallet, currentAccount, sendAmount } = useContext(TransactionContext);
     const contextValues = useContext(TransactionContext);
+
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
         useFormik({
             initialValues,
-            validationSchema: amountSchema,
+            validationSchema: repaySchema,
             onSubmit: (values, action) => {
                 console.log(values)
                 const { walletAddress, amount } = values;
                 console.log(walletAddress, amount)
-                contextValues?.sendAmount(walletAddress, amount);
-                // action.resetForm();
+                const amountType = "repayment";
+                contextValues?.sendAmount(walletAddress, amount, amountType);
             },
         });
     // console.log(errors);
-
-
-    if (token !== "11223") {
-        Swal.fire({
-            icon: "error",
-            title: "you are not authorized to access this",
-            showConfirmButton: false,
-            timer: 2000
-        });
-        return navigate("/")
-    }
 
 
     if (contextValues?.currentAccount) {
@@ -56,7 +43,7 @@ const SendAmount = ({ token }) => {
                 <div className={styles.formContainer}>
                     <div className={styles.arrow}>
 
-                        <button onClick={() => navigate("/")} >← go back</button>
+                        <button onClick={() => navigate(-1)} >← go back</button>
                         {/* <h2 className={styles.title}>Application Form</h2> */}
                     </div>
                     <form onSubmit={handleSubmit}>
@@ -69,6 +56,7 @@ const SendAmount = ({ token }) => {
                                 value={values.walletAddress}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                readOnly
                             />
                             {errors.walletAddress && touched.walletAddress ? (
                                 <p className={styles.formError}>{errors.walletAddress}</p>
@@ -123,6 +111,4 @@ const SendAmount = ({ token }) => {
         )
     }
 }
-
-
-export default SendAmount
+export default Repay;
