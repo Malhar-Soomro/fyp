@@ -38,7 +38,7 @@ const Navbar = () => {
                 <Link>Home</Link>
                 <Link to='loan-form'>Apply for loan</Link>
                 <Link to='/dashboard'>Dashboard</Link>
-                <Link>Contact</Link>
+                <Link to='/all-transactions'>All Transactions</Link>
 
                 {user ?
                     <button className={styles.logoutBtn} onClick={logout}>
