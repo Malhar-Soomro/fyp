@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import * as styles from "../styles/navbar.module.css";
 import { Link } from 'gatsby';
 import { signOut, } from "firebase/auth"
@@ -10,7 +10,9 @@ import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
 
-    const [user, setUser] = React.useState(sessionStorage.getItem('uid'));
+    const [user, setUser] = useState(sessionStorage.getItem('uid'));
+    const [toggleMenu, setToggleMenu] = useState(false);
+
     const values = useContext(AuthContext);
 
     const logout = async () => {
@@ -34,6 +36,8 @@ const Navbar = () => {
         <div className={styles.container}>
             <h2 className={styles.title}>Crypto Loan</h2>
 
+
+
             <ul className={styles.list}>
                 <Link>Home</Link>
                 <Link to='loan-form'>Apply for loan</Link>
@@ -51,6 +55,30 @@ const Navbar = () => {
                     </>
                 }
             </ul>
+
+            {toggleMenu && <ul className={styles.mobileList}>
+                <Link>Home</Link>
+                <Link to='loan-form'>Apply for loan</Link>
+                <Link to='/dashboard'>Dashboard</Link>
+                <Link to='/all-transactions'>All Transactions</Link>
+
+                {user ?
+                    <button className={styles.logoutBtn} onClick={logout}>
+                        Logout
+                    </button>
+                    :
+                    <>
+                        <Link to="/sign-up">Sign Up</Link>
+                        <Link to='/login'>Login</Link>
+                    </>
+                }
+            </ul>}
+
+            <div className={styles.hamburger} onClick={() => setToggleMenu(!toggleMenu)}>
+                <span className={styles.line}></span>
+                <span className={styles.line}></span>
+                <span className={styles.line}></span>
+            </div>
 
         </div>
     )
