@@ -114,3 +114,30 @@
     color:rgb(226, 112, 112);
 
 }
+
+
+@media screen and (max-width: 790px) {
+    
+    .formContainer{
+        width: 90%;
+    }
+    
+}
+
+@media screen and (max-width: 530px) {
+    .arrow{
+        flex-direction: column;
+    }
+    .formContainer{
+        width: 100%;
+    }
+    .title{
+        font-size: 21px;
+    }
+    .container form{
+        width: 50%;
+    }
+    .container input{
+        width: 250px;
+    }
+}

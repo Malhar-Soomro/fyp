@@ -78,3 +78,15 @@
     background-color: #4a4ae8;
 
 }
+
+@media screen and (max-width: 490px) {
+    .connectWallet{
+        text-align: center;
+    }
+    .connectWallet h2{
+        font-size: 21px;
+    }
+    .walletBtn{
+        font-size: 14px;
+    }
+}
