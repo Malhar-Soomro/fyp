@@ -1,49 +1,59 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal Starter
-</h1>
+# Blockchain Based Loan Management With Smart Contracts
 
-## 🚀 Quick start
+### _A web application where user can apply for loan, view the status of loan and repay the loan. The loan provided will be in Ethereum cryptocurrency._
 
-1.  **Create a Gatsby site.**
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+## Desktop Interface
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+<img src='./project images/desktop home1.png' />
+<img src='./project images/desktop home2.png' />
+<img src='./project images/login form.png' />
+<img src='./project images/loan form.png' />
+<img src='./project images/connect wallet.png' />
+<img src='./project images/all transactions.png' />
+<img src='./project images/firebase.png' />
 
-2.  **Start developing.**
+## Mobile Interface
 
-    Navigate into your new site’s directory and start it up.
+<img src='./project images/mobile 0.png' />
+<img src='./project images/mobile 1.png' />
+<img src='./project images/mobile 2.png' />
+<img src='./project images/mobile 3.png' />
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+## Run Locally
 
-3.  **Open the code and start customizing!**
+**Fronted**
 
-    Your site is now running at http://localhost:8000!
+- Run this command `git clone https://github.com/Malhar-Soomro/fyp.git`
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+**Backend**
 
-4.  **Learn more**
+- Run this command `https://github.com/Malhar-Soomro/fyp_backend.git`
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- You are now in the dev environment and you can play around
 
-## 🚀 Quick start (Netlify)
+## Features
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+- Authentication (Login/Signup)
+- Authentication also with Google
+- Apply for loan
+- View the loan status
+- Transactions will be stored on the blockchain
+- Mobile Responsive
+- Validation
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
+## Tech Stack
+### Frontend
+
+- HTML5
+- CSS3
+- Javascript and ES6
+- ReactJs
+- Context API
+
+### Backend
+
+- Solidity
+- Ethers
+- Chai
+- Hardhat
