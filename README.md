@@ -5,20 +5,20 @@
 
 ## Desktop Interface
 
-<img src='./project images/desktop home1.png' />
-<img src='./project images/desktop home2.png' />
-<img src='./project images/login form.png' />
-<img src='./project images/loan form.png' />
-<img src='./project images/connect wallet.png' />
-<img src='./project images/all transactions.png' />
-<img src='./project images/firebase.png' />
+<img src='./project data/desktop home1.png' />
+<img src='./project data/desktop home2.png' />
+<img src='./project data/login form.png' />
+<img src='./project data/loan form.png' />
+<img src='./project data/connect wallet.png' />
+<img src='./project data/all transactions.png' />
+<img src='./project data/firebase.png' />
 
 ## Mobile Interface
 
-<img src='./project images/mobile 0.png' />
-<img src='./project images/mobile 1.png' />
-<img src='./project images/mobile 2.png' />
-<img src='./project images/mobile 3.png' />
+<img src='./project data/mobile 0.png' />
+<img src='./project data/mobile 1.png' />
+<img src='./project data/mobile 2.png' />
+<img src='./project data/mobile 3.png' />
 
 ## Run Locally
 
